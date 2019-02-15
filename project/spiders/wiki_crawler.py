@@ -2,7 +2,7 @@ import scrapy, os
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
-class Spider(scrapy.Spider):
+class WikiSpider(scrapy.Spider):
     name = 'wiki'
 
     custom_settings = {
@@ -25,7 +25,7 @@ class Spider(scrapy.Spider):
 
         # write url to file
         page_url = response.url
-        with open('urls.txt', 'r+') as f:
+        with open('url_list.txt', 'r+') as f:
             if page_url not in f:
                 f.write(page_url+'\n')
 
