@@ -4,7 +4,7 @@
 
 Project for the University of Amsterdam course Information Retrieval 2018/2019. Implements a simple search engine for travel information.
 
-Crawling is implemented with scrapy, which follows the following file structure. All spiders, which are responsible for crawling a particular website, reside in the folder project/spiders/.
+Crawling is implemented with scrapy. The scrapy project follows the following file structure. All spiders, which are responsible for crawling a particular website, reside in the folder project/spiders/.
 
 ```
 scrapy.cfg
