@@ -19,8 +19,8 @@ def htmls_to_strings(urls_file_dir):
     count = 0
     
     for url in url_list:
-            if count == 3:
-                break
+            # if count == 3:
+            #     break
             try: 
                 html = get(url).content
             except:
@@ -91,43 +91,60 @@ def create_inverted_index(tpl):
     return inverted
 
 def merge_indices(index1, index2):
+    """ function that merges two existing indices """
     new_dict = {}
-    for key, value in index1.items():
-
-        for key2, value2 in index2.items():
-
-            if key == key2:
+    for word1, docs1 in index1.items():
+        for word2, docs2 in index2.items():
+            if word1 == word2:
                 # combine value1 and value2
                 same_term_dict = {}
-                for key, value in index1[key].items():
-                    same_term_dict[key] = value
-
-                for key, value in index2[key2].items():
-                    same_term_dict[key] = value 
-            else:
-                new_dict[key] = value
+                for url1, value in index1[word1].items():
+                    same_term_dict[url1] = value
+                for url2, value in index2[word1].items():
+                    same_term_dict[url2] = value 
+                new_dict[word1] = same_term_dict
     
+    # add words from index1 not in index2
+    for word1, docs1 in index1.items():
+         if word1 not in new_dict:
+            new_dict[word1] = docs1
+
     # add remaining words from index2
     for key2, value2 in index2.items():
         if key2 not in new_dict:
             new_dict[key2] = value2
+    
     return new_dict
 
     
                 
-   
+# doc1='In a speech to senior Russian officials in Moscow, Putin said the possible deployment of missiles that could reach Moscow in 10 minutes was dangerous for Russia,and that Moscow would be forced to review symmetrical and asymmetrical actions'
+# tup1 = ([doc1], {doc1:'URL1'})
+# doc2=' In Russia will Moscow be forced to create and deploy types of weapons, which can be used not just against those territories, from which the direct threat will come, but also against those, where the centres of decision-making for using these missile systems will come,the Russian president said'
+# tup2 = ([doc2], {doc2:'URL2'})
 
-doc1='In a speech to senior Russian officials in Moscow, Putin said the possible deployment of missiles that could reach Moscow in 10 minutes was dangerous for Russia,and that Moscow would be forced to review symmetrical and asymmetrical actions'
+# doc3='The treaty, concluded by Ronald Reagan and Mikhail Gorbachev, banned the development and deployment of land-based missiles with a range of 500-5,500km and was widely credited with banishing nuclear missiles from Europe. The US, led by the national security adviser, John Bolton'
 
-doc2=' In Russia will Moscow be forced to create and deploy types of weapons, which can be used not just against those territories, from which the direct threat will come, but also against those, where the centres of decision-making for using these missile systems will come,the Russian president said'
+# takes a list of documents/strings and dictionary 
+#     with text:url as input and outputs an inverted index'
+path = "C:/Users/leonv/Documents/development/Master/Big_data/travelsearch/data/url_list_large.txt"
+print(create_inverted_index(htmls_to_strings(path)))
+ 
 
-doc3='The treaty, concluded by Ronald Reagan and Mikhail Gorbachev, banned the development and deployment of land-based missiles with a range of 500-5,500km and was widely credited with banishing nuclear missiles from Europe. The US, led by the national security adviser, John Bolton'
+# # update 
+# pc1 = create_inverted_index(tup1)
+# pc2 = create_inverted_index(tup2)
+# print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+# print("")
+# print("")
+# print("")
+# print(pc1)
+# print("")
+# print("")
+# print(pc2)
+# print("")
+# print("")
+# print(merge_indices(pc1,pc2))
+# print("")
 
-
-# print(create_inverted_index(htmls_to_strings("url_list_large.txt")))
-
-# update 
-pc1 = inverted_index_add({}, 'doc1', inverted_positions(doc1))
-pc2 = inverted_index_add({}, 'doc2', inverted_positions(doc2))
-print(merge_indices(pc1,pc2))
 
