@@ -115,36 +115,3 @@ def merge_indices(index1, index2):
             new_dict[key2] = value2
     
     return new_dict
-
-    
-                
-# doc1='In a speech to senior Russian officials in Moscow, Putin said the possible deployment of missiles that could reach Moscow in 10 minutes was dangerous for Russia,and that Moscow would be forced to review symmetrical and asymmetrical actions'
-# tup1 = ([doc1], {doc1:'URL1'})
-# doc2=' In Russia will Moscow be forced to create and deploy types of weapons, which can be used not just against those territories, from which the direct threat will come, but also against those, where the centres of decision-making for using these missile systems will come,the Russian president said'
-# tup2 = ([doc2], {doc2:'URL2'})
-
-# doc3='The treaty, concluded by Ronald Reagan and Mikhail Gorbachev, banned the development and deployment of land-based missiles with a range of 500-5,500km and was widely credited with banishing nuclear missiles from Europe. The US, led by the national security adviser, John Bolton'
-
-# takes a list of documents/strings and dictionary 
-#     with text:url as input and outputs an inverted index'
-path = "C:/Users/leonv/Documents/development/Master/Big_data/travelsearch/data/url_list_large.txt"
-print(create_inverted_index(htmls_to_strings(path)))
- 
-
-# # update 
-# pc1 = create_inverted_index(tup1)
-# pc2 = create_inverted_index(tup2)
-# print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-# print("")
-# print("")
-# print("")
-# print(pc1)
-# print("")
-# print("")
-# print(pc2)
-# print("")
-# print("")
-# print(merge_indices(pc1,pc2))
-# print("")
-
-
