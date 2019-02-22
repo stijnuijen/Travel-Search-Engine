@@ -11,9 +11,9 @@ class LonelySpider(scrapy.Spider):
         'USER_AGENT': 'bot'}
 
     count = 0
-    max_count = 1050
+    max_count = 10050
 
-    start_urls = [('https://www.lonelyplanet.com/thorntree/forums/americas-south-america?page='+str(i)) for i in range(1000)]
+    start_urls = [('https://www.lonelyplanet.com/thorntree/forums/americas-south-america?page='+str(i)) for i in range(100000)]
         
     def parse(self, response):
         # follow links to question pages
@@ -24,7 +24,7 @@ class LonelySpider(scrapy.Spider):
     def parse_question(self, response):
         if self.count < self.max_count:
             page_url = response.url
-            with open('url_list.txt','a+') as f:
+            with open('url_list_large.txt','a+') as f:
                 if page_url not in f.read():
                     f.write('{}\n'.format(page_url))
                     self.count += 1

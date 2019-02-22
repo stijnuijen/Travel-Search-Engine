@@ -10,12 +10,20 @@ class WikiSpider(scrapy.Spider):
         'DOWNLOAD_DELAY': .5,
         'USER_AGENT': 'bot'}
 
+    # custom_settings = {
+    #     'ROBOTSTXT_OBEY': True,
+    #     'DOWNLOAD_DELAY': .5,
+    #     'USER_AGENT': 'bot'}
+    #     'DEPTH_PRIORITY': 1,
+    #     'SCHEDULER_DISK_QUEUE': 'scrapy.squeues.PickleFifoDiskQueue',
+    #     'SCHEDULER_MEMORY_QUEUE': 'scrapy.squeues.FifoMemoryQueue'}
+
     start_urls = ['https://en.wikipedia.org/wiki/List_of_sovereign_states']
     blacklist = ['#', 'Category:', 'File:', 'Wikipedia:', 'Index', 'List', 'Template', 'User', 'Book:']
     allowed_domains = ['en.wikipedia.org']
 
     count = 0
-    max_count = 1050
+    max_count = 10050
 
     def parse(self, response):
 
@@ -37,7 +45,7 @@ class WikiSpider(scrapy.Spider):
                 if forbidden_tag in page_url:
                     return
             
-            with open('url_list.txt', 'a+') as f:
+            with open('url_list_large.txt', 'a+') as f:
                 if page_url not in f.read():
                     f.write('{}\n'.format(page_url))
                     self.count += 1
