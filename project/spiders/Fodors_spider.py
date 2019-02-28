@@ -13,7 +13,7 @@ class FodorsSpider(scrapy.Spider):
     count = 0
     max_count = 10050
 
-    start_urls = [('https://www.fodors.com/community/asia/page'+str(i)) for i in range(100000)]
+    start_urls = [('https://www.fodors.com/community/asia/page'+str(i)+'/') for i in range(100000)]
         
     def parse(self, response):
         # follow links to question pages
