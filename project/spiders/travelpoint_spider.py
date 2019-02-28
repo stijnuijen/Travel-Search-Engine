@@ -27,7 +27,7 @@ class TPSpider(CrawlSpider):
     def parse_item(self, response):
         if self.count < self.max_count:
             page_url = response.url
-            with open('url_list_large.txt','a+') as f:
+            with open('test_list.txt','a+') as f:
                 if page_url not in f.read():
                     f.write('{}\n'.format(page_url))
                     self.count += 1
