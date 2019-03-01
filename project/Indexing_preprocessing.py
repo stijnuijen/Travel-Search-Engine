@@ -12,6 +12,8 @@ def htmls_to_strings(urls_file_dir):
     list of pure text strings from the corresponding HTML texts"""
     string_list = []
     url_dict = {}
+    all_info_dict = {}
+
     with open(urls_file_dir) as f:
         content = f.readlines()
     url_list = [line.strip() for line in content] 
@@ -19,34 +21,47 @@ def htmls_to_strings(urls_file_dir):
     count = 0
     
     for url in url_list:
-            # if count == 3:
-            #     break
+            if count == 3:
+                break
             try: 
                 html = get(url).content
             except:
                 continue
+            
             soup = BeautifulSoup(html, 'html.parser')
+            
+            info_of_page = {'url': url, 
+                'title': soup.find('title').get_text(),
+                'text': None, # add these
+                'score': None # two later
+                }
 
             # kill all script and style elements
             for script in soup(["script", "style"]):
                 script.extract()    # rip it out
-
             # get text
             text = soup.get_text()
-
             # break into lines and remove leading and trailing space on each
             lines = (line.strip() for line in text.splitlines())
             # break multi-headlines into a line each
             chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
             # drop blank lines
             text = '\n'.join(chunk for chunk in chunks if chunk)
+            text = text.replace("\n"," ")
             
+            # add text to page dict
+            info_of_page["text"] = text
+
+            # add info to right dataobjects 
             string_list.append(text)
             url_dict[text] = url
+            all_info_dict[url] = info_of_page
 
+            # increment count
             count += 1
 
-    return string_list, url_dict
+    # print(all_info_dict)
+    return string_list, url_dict, all_info_dict
 
 def word_index(text):
     ''' Performs preprocessing on raw text and
@@ -115,3 +130,81 @@ def merge_indices(index1, index2):
             new_dict[key2] = value2
     
     return new_dict
+
+
+
+def add_TFIDF_as_score(input_tpl):
+    """ takes tuple where 1) a list of strings and 2) dictionary where 
+    keys are these strings and the value is the corresponding url
+    and returns a inverted index with TF-IDF scores instead of mere 
+    term frequencies"""
+    
+    import math
+
+    # structure of inv_index:
+    # {word1: {url: [frequency_in_doc [index1, index2]]}}
+
+    inv_index = create_inverted_index(input_tpl)
+    final_TFIDF = inv_index.copy()
+    
+    tf_idf_info = {}
+
+    doc_freqs = {}
+
+    # determine all unique urls
+    for word in inv_index:
+        for url in inv_index[word]:
+            if url not in tf_idf_info:
+                tf_idf_info[url] = {'length': None, 'word_freqs': {}}
+
+    # determine document lengths:
+    for url in tf_idf_info:
+        N = 0
+        for word in inv_index:
+            for suburl in inv_index[word]:
+                if url == suburl:
+                    N += inv_index[word][url][0]
+        tf_idf_info[url]['length'] = N
+
+    # add term frequencies:
+    for word in inv_index:
+        for url in inv_index[word]:
+            if word not in tf_idf_info[url]['word_freqs']:
+                tf_idf_info[url]['word_freqs'][word] = inv_index[word][url][0]
+            
+    # calculate TF 
+    for url in tf_idf_info:
+        for word in tf_idf_info[url]['word_freqs']:
+            tf_idf_info[url]['word_freqs'][word] = tf_idf_info[url]['word_freqs'][word] / tf_idf_info[url]['length']
+
+    # determine document frequencies:
+    for word in inv_index:
+        doc_freqs[word] = len(inv_index[word])
+
+    # transgrom DF to IDF:
+    N_docs = len(tf_idf_info)
+    for word in doc_freqs:
+        doc_freqs[word] = math.log10(N_docs/ doc_freqs[word])
+    
+    # create inverted index with TFIDF score
+    for word in final_TFIDF:
+        for url in final_TFIDF[word]:
+            final_TFIDF[word][url] = tf_idf_info[url]['word_freqs'][word] * doc_freqs[word]
+
+    return final_TFIDF
+
+
+print("")
+print("")
+print("")
+print("")
+print("")
+print("")
+print("")
+print("")
+print("")
+print("")
+print("")
+print("")
+
+print(add_TFIDF_as_score(htmls_to_strings("C:/Users/leonv/Documents/development/Master/Big_data/travelsearch/data/url_list.txt")))
