@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block navsearch %}
+    <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="", autocomplete="off">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-8">
+        {% for result in results %}
+            <h5><a href='{{result["url"]}}'>{{result['title']}}</a></h5>
+            <p>{{result['text']}}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
