@@ -53,9 +53,6 @@ def Search(query):
             except:
                 continue
 
-            
-            
-
     return top
     
 

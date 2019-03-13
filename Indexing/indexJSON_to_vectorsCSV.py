@@ -17,6 +17,7 @@ with open(url_dir) as csv_file:
 shuffle(urls[0])
 urls = urls[0][:1000]
 words = sorted(list(INDEX.keys()))
+   
 
 print(len(urls))
 f = open('clean_index.csv','w', encoding='utf-8')
@@ -43,6 +44,16 @@ for url in urls:
     count += 1
     if count % 100 == 0: 
         print(count, " of ", len(urls), " urls processed.")
+
+
+
+
+
+
+
+
+
+
 
 
 # 5 digits, 67 kb 
