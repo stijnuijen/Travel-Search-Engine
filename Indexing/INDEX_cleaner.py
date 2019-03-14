@@ -1,9 +1,6 @@
 import json
-import math
-import numpy as np
-import pandas as pd
-import gc
 import nltk
+import re
 from nltk.corpus import stopwords
 from sys import getsizeof
 
@@ -32,7 +29,12 @@ print(len(INDEX))
 for k, v in list(INDEX.items()):
     if k[0] not in alphabet:
         if not k[0].isdigit():
-         del INDEX[k]
+                del INDEX[k]
+    elif bool(re.match('^(?=.*[0-9]$)(?=.*[a-zA-Z])', k)):
+            del INDEX[k]
+    elif k.isdigit() and len(k) > 4:
+        del INDEX[k]
 
-with open('clean_INDEX.json', 'w') as fp:
+
+with open('clean_INDEX2.json', 'w') as fp:
       json.dump(INDEX, fp)

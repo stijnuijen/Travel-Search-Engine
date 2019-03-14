@@ -5,6 +5,9 @@ from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 import numpy as np
 import math
+import json
+import operator
+
 
 
 def l2_norm(a):  
@@ -15,6 +18,10 @@ def cosine_similarity(a, b):
 
 def Search(query):
 
+    JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json" 
+    with open(JSON_dir) as f:
+        INDEX = json.load(f)
+
     # same preprocessing as in index creation:
     text = query.lower()
     tokenizer = RegexpTokenizer(r'\w+')
@@ -23,37 +30,47 @@ def Search(query):
     words = [ps.stem(word) for word in tokens]
     stopset = set(stopwords.words('english'))
     words = [word for word in words if word not in stopset]
+    freq_dict = {i:words.count(i) for i in set(words)}
 
-    # put the path of the folder with vectors file
-    vectors_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_index.csv" 
-    with open(vectors_dir, encoding='utf-8') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for count, row in enumerate(csv_reader):
-            words_vector = row[1:]
-            break
-    
+    # create query vector with tfidf values:
+    N_docs = 36091
     query_vector = []
-    for word in words_vector:
-        if word in words:
-            query_vector.append(1)
-        else:
-            query_vector.append(0)
+    for word in freq_dict:
+        tf = freq_dict[word] / len(words)
+        try:
+            df = len(INDEX[word]) + 1
+        except:
+            df = 1
+        idf = math.log10(N_docs/ df)
+        query_vector.append(tf*idf)
+    query_vector = np.array(query_vector)
 
-    top = []
-
-    with open(vectors_dir, encoding='utf-8') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for count, row in enumerate(csv_reader):
+    # determine pages with at least one word from the query
+    pages_with_words = []
+    for word in freq_dict:
+        try:
+            for url in INDEX[word]:
+                if url not in pages_with_words:
+                    pages_with_words.append(url)
+        except:
+            continue
+    
+    # create tfidf vectors of those pages and 
+    # calculate the cosine simularity
+    page_distance_to_query = {}
+    for url in pages_with_words:
+        page_vector = []
+        for word in freq_dict:
             try:
-                url_vector = [float(i) for i in row[1:]]
-                top.append([row[0], cosine_similarity(np.array(query_vector), np.array(url_vector))]) 
-                print(count)
-                if count == 3:
-                    break
+                page_vector.append(float(INDEX[word][url]))
             except:
-                continue
+                page_vector.append(0)
+        page_vector = np.array(page_vector)
+        page_distance_to_query[url] = cosine_similarity(query_vector, page_vector)
 
-    return top
+
+    return sorted(page_distance_to_query.items(), key=operator.itemgetter(1))
+
     
 
-print(Search("Hello Worlds!"))
+print(Search("Street Food in Hanoi"))
