@@ -1,4 +1,4 @@
-from spellchecker import SpellChecker
+from pyspellchecker import SpellChecker
 
 spell = SpellChecker()
 
