@@ -230,7 +230,7 @@ def Search(query, food = False, transport = False, culture = False, continent=No
             else:
                 results.append(url)
         sorted_pages = results
-    if contintent == 'Asia':
+    if continent == 'Asia':
         for url in sorted_pages:
             if url[0].startswith('https://www.fodors.com/community/asia/'):
                 continue
