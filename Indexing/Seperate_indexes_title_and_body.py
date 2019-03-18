@@ -154,5 +154,10 @@ def merge_indices(index1, index2):
 # #body index
 # print(create_inverted_index(htmls_to_body_strings('/Users/stijnuijen/Documents/MSc Data Science/Information Retrieval/Project/travelsearch/data/url_list.txt')))
 
-create_inverted_index(htmls_to_body_strings('/Users/stijnuijen/Documents/MSc Data Science/Information Retrieval/Project/travelsearch/data/url_list.txt'))
+title_index = create_inverted_index(htmls_to_title_strings('/Users/stijnuijen/Documents/MSc Data Science/Information Retrieval/Project/travelsearch/data/url_list_large.txt'))
 
+import json
+
+with open('title_index.json', 'w') as fp:
+    json.dump(title_index, fp)
+    

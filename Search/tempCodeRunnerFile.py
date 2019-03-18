@@ -114,9 +114,9 @@ def l2_norm(a):
 def cosine_similarity(a, b):
     return np.dot(a,b) / (l2_norm(a) * l2_norm(b))
 
-def Search(query, food = False, transport = False, culture = False, continent=None):
+def Search(query, food = False, transport = False, culture = False, continent):
 
-    JSON_dir = "/Users/stijnuijen/Downloads/clean_INDEX.json" 
+    JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json" 
     with open(JSON_dir) as f:
         INDEX = json.load(f)
 
@@ -293,5 +293,5 @@ def Search(query, food = False, transport = False, culture = False, continent=No
     return sorted_pages
     
 main_start_time = time.time()
-print(Search("South America", food = True))
+print(Search("Shopping in florance", continent='Asia'))
 print("Query took: --- %s seconds ---" % (time.time() - main_start_time))

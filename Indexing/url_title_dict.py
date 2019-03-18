@@ -1,3 +1,7 @@
+from requests import get
+from bs4 import BeautifulSoup
+import json
+
 def htmls_to_title_strings(urls_file_dir):
     """ expects location of textfile containing URLs and returns 
     list of pure text strings from the corresponding HTML texts"""
@@ -17,8 +21,10 @@ def htmls_to_title_strings(urls_file_dir):
             
             url_dict[url] = text
 
-            count += 1
 
     return url_dict
 
-print(htmls_to_title_strings('/Users/stijnuijen/Documents/MSc Data Science/Information Retrieval/Project/travelsearch/data/url_list_large.txt'))
+title_index = htmls_to_title_strings('/Users/stijnuijen/Documents/MSc Data Science/Information Retrieval/Project/travelsearch/data/url_list_large.txt')
+
+with open('title_index.json', 'w') as fp:
+    json.dump(title_index, fp)

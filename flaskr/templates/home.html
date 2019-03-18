@@ -1,20 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
+<div class="container" style="margin-top:5%">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>Travel Search</h1>
+                <p class="lead">Find your next destination!</p>
+            </div>
         </div>
-        <div class="col-sm">
+
+        <div class="row">
             <div class="container mx-auto">
-                <h1>TravelSearch</h1>
-                <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+                <form class="form-inline my-2 my-lg-0" action="/search" method="post" align="center">
                     <input class="form-control mr-sm-2" type="text" name="query" placeholder="", autocomplete="off">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
-        </div>
-        <div class="col-sm">
         </div>
     </div>
 </div>
