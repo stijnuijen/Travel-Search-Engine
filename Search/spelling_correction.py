@@ -1,13 +1,21 @@
-from pyspellchecker import SpellChecker
+from spellchecker import SpellChecker
+# this file is for search
+import csv
+import nltk
+from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
+from spellchecker import SpellChecker
+import numpy as np
+import math
+import json
+import operator
+import time
 
-spell = SpellChecker()
-
-# find those words that may be misspelled
-misspelled = spell.unknown(['something', 'is', 'hapenning', 'here'])
-
-for word in misspelled:
-    # Get the one `most likely` answer
-    print(spell.correction(word))
-
-    # Get a list of `likely` options
-    print(spell.candidates(word))
+tokenizer = RegexpTokenizer(r'\w+')
+tokens = tokenizer.tokenize('hapenning in paris')
+spelling_correction = SpellChecker()
+tokens2 = []
+print(tokens)
+for word in tokens:
+    tokens2.append(spelling_correction.correction(word))
+print(tokens2)
