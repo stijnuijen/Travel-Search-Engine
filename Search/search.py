@@ -266,5 +266,5 @@ def Search(query, food = False, transport = False, culture = False):
     return sorted_pages
     
 main_start_time = time.time()
-print(Search("Shopping in florance", culture = True))
+print(Search("South America", food = True))
 print("Query took: --- %s seconds ---" % (time.time() - main_start_time))
