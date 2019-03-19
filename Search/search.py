@@ -3,6 +3,7 @@ import csv
 import nltk
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
+from spellchecker import SpellChecker
 import numpy as np
 import math
 import json
@@ -172,12 +173,16 @@ def Search(query, food = False, transport = False, culture = False, continent=No
             del culture_urls[key]
 
     # same preprocessing as in index creation:
-    # ADD SPELLING CORRECTION
+    
     text = query.lower()
     tokenizer = RegexpTokenizer(r'\w+')
     tokens = tokenizer.tokenize(text)
+    spelling_correction = SpellChecker()
+    tokens2 = []
+    for word in tokens:
+        tokens2.append(spelling_correction.correction(word))
     ps = nltk.PorterStemmer()
-    words = [ps.stem(word) for word in tokens]
+    words = [ps.stem(word) for word in tokens2]
     stopset = set(stopwords.words('english'))
     words = [word for word in words if word not in stopset]
     freq_dict = {i:words.count(i) for i in set(words)}

@@ -11,7 +11,10 @@ import operator
 import time
     
 tokenizer = RegexpTokenizer(r'\w+')
-text='Holidaay in Vietnam'
+text='Holidaay in Vietnam!'
+print(text)
+text = text.lower()
+print(text)
 tokens = tokenizer.tokenize(text)
 print(tokens)
 spelling_correction = SpellChecker()

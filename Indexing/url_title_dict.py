@@ -26,5 +26,5 @@ def htmls_to_title_strings(urls_file_dir):
 
 title_index = htmls_to_title_strings('/Users/stijnuijen/Documents/MSc Data Science/Information Retrieval/Project/travelsearch/data/url_list_large.txt')
 
-with open('title_index.json', 'w') as fp:
+with open('index_titles.json', 'w') as fp:
     json.dump(title_index, fp)
