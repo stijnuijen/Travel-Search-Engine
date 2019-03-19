@@ -116,7 +116,7 @@ def cosine_similarity(a, b):
 
 def Search(query, food = False, transport = False, culture = False, continent=None):
 
-    JSON_dir = "/Users/stijnuijen/Downloads/clean_INDEX.json" 
+    JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json" 
     with open(JSON_dir) as f:
         INDEX = json.load(f)
 
@@ -293,5 +293,5 @@ def Search(query, food = False, transport = False, culture = False, continent=No
     return sorted_pages
     
 main_start_time = time.time()
-print(Search("South America", food = True))
+print(Search("Amsterdam netherlands", continent="Asia"))
 print("Query took: --- %s seconds ---" % (time.time() - main_start_time))
