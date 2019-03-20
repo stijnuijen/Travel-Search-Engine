@@ -5,7 +5,6 @@ import json
 def htmls_to_title_strings(urls_file_dir):
     """ expects location of textfile containing URLs and returns 
     list of pure text strings from the corresponding HTML texts"""
-    string_list = []
     url_dict = {}
     with open(urls_file_dir) as f:
         content = f.readlines()
