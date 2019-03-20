@@ -109,6 +109,8 @@ culture_vocab = ['french', 'paleo-indian', 'assyrian', 'alfr', 'kinship', 'schem
                 'folk', 'farmer', 'invest', 'cicero', 'school', 'marxism', 'ideolog', 'the', 'marriag', 'context', 'darwin', 'americana', 'ice', 'taoist', 'exclus', 'indu', 'prolifer', 'consumer', 
                 'natur', 'literari', 'anarchi', 'heathen', 'nationwid']
 
+
+
 def l2_norm(a):  
     return math.sqrt(np.dot(a, a))
 
@@ -117,9 +119,16 @@ def cosine_similarity(a, b):
 
 def Search(query, food = False, transport = False, culture = False, continent=None):
 
+    # load inverted Index:
     JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json" 
     with open(JSON_dir) as f:
         INDEX = json.load(f)
+
+    
+    # load the title dict:
+    JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json" 
+    with open(JSON_dir_titles) as f:
+        TITLES = json.load(f)
 
     # if food filter is activated:
     food_urls = {} 
@@ -231,24 +240,24 @@ def Search(query, food = False, transport = False, culture = False, continent=No
     if continent == 'Europe':
         for url in sorted_pages:
             if url[0].startswith('https://community.ricksteves.com/travel-forum/'):
-                continue
-            else:
                 results.append(url)
+            else:
+                continue
         sorted_pages = results
     if continent == 'Asia':
         for url in sorted_pages:
             if url[0].startswith('https://www.fodors.com/community/asia/'):
-                continue
-            else:
                 results.append(url)
+            else:
+                continue
         sorted_pages = results
 
     if continent == 'South America':
         for url in sorted_pages:
             if url[0].startswith('https://www.lonelyplanet.com/thorntree/forums/americas-south-america/'):
-                continue
-            else:
                 results.append(url)
+            else:
+                continue
         sorted_pages = results
 
     # delete all irrelevant pages if one or multiple checkbox(es) is/are activated
@@ -295,8 +304,14 @@ def Search(query, food = False, transport = False, culture = False, continent=No
                 results.append(url)
         sorted_pages = results
 
-    return sorted_pages
+    # create the right format for frontend 
+    ranking = []
+    for page_tuple in sorted_pages[:100]:
+        page_dict = {"url": page_tuple[0], "text": "BLABLABLA", "title": TITLES[page_tuple[0]], "score": page_tuple[1]}
+        ranking.append(page_dict)
+
+    return ranking
     
 main_start_time = time.time()
-print(Search("Amsterdam netherlands", continent="Asia"))
+print(Search("Italy Florance", food= True, continent="Europe"))
 print("Query took: --- %s seconds ---" % (time.time() - main_start_time))
