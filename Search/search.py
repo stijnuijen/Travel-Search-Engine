@@ -194,6 +194,7 @@ def Search(query, food = False, transport = False, culture = False, continent=No
     words = [ps.stem(word) for word in tokens2]
     stopset = set(stopwords.words('english'))
     words = [word for word in words if word not in stopset]
+    print(words)
     freq_dict = {i:words.count(i) for i in set(words)}
 
     # create query vector with tfidf values:
@@ -306,12 +307,19 @@ def Search(query, food = False, transport = False, culture = False, continent=No
 
     # create the right format for frontend 
     ranking = []
-    for page_tuple in sorted_pages[:100]:
-        page_dict = {"url": page_tuple[0], "text": "BLABLABLA", "title": TITLES[page_tuple[0]], "score": page_tuple[1]}
-        ranking.append(page_dict)
+   
+    for page_tuple in sorted_pages[::-1]:
+        try:
+            page_dict = {"url": page_tuple[0], "text": "BLABLABLA", "title": TITLES[page_tuple[0]], "score": page_tuple[1]}
+            ranking.append(page_dict)
+        except:
+            page_dict = {"url": page_tuple[0], "text": "BLABLABLA", "title": "Title UNKNOWN", "score": page_tuple[1]}
+            ranking.append(page_dict)
+        if len(ranking) == 10:
+            break
 
     return ranking
     
 main_start_time = time.time()
-print(Search("Italy Florance", food= True, continent="Europe"))
+print(Search("Italy Florance"))
 print("Query took: --- %s seconds ---" % (time.time() - main_start_time))
