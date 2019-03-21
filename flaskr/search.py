@@ -18,17 +18,6 @@ def cosine_similarity(a, b):
 
 def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False, continent=None):
 
-    # # load inverted Index:
-    # JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json"
-    # with open(JSON_dir) as f:
-    #     INDEX = json.load(f)
-    #
-    #
-    # # load the title dict:
-    # JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
-    # with open(JSON_dir_titles) as f:
-    #     TITLES = json.load(f)
-
     food_vocab = ['acorn', 'squash', 'alfalfa', 'sprout', 'almond', 'anchovi', 'anis', 'appet', 'appetit', 'appl', 'apricot', 'artichok', 'asparagu', 'aspic',
                     'ate', 'avocado', 'bacon', 'bagel', 'bake', 'bamboo', 'shoot', 'banana', 'barbecu', 'barley', 'basil', 'batter', 'beancurd', 'bean', 'beef', 'beet', 'bell',
                     'pepper', 'berri', 'biscuit', 'bitter', 'blackbean', 'blackberri', 'black-ey', 'pea', 'bland', 'blood', 'orang', 'blueberri', 'boil', 'bowl', 'boysenberri', 'bran',
