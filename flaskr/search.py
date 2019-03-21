@@ -9,6 +9,20 @@ import math
 import json
 import operator
 import time
+from requests import get
+from bs4 import BeautifulSoup
+
+
+# # load inverted Index:
+# JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json"
+# with open(JSON_dir) as f:
+#     INDEX = json.load(f)
+
+
+# # load the title dict:
+# JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
+# with open(JSON_dir_titles) as f:
+#     TITLES = json.load(f)
 
 def l2_norm(a):
     return math.sqrt(np.dot(a, a))
@@ -18,6 +32,10 @@ def cosine_similarity(a, b):
 
 def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False, continent=None):
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9c0a7743839881131e047c1140f0a462c5474428
     food_vocab = ['acorn', 'squash', 'alfalfa', 'sprout', 'almond', 'anchovi', 'anis', 'appet', 'appetit', 'appl', 'apricot', 'artichok', 'asparagu', 'aspic',
                     'ate', 'avocado', 'bacon', 'bagel', 'bake', 'bamboo', 'shoot', 'banana', 'barbecu', 'barley', 'basil', 'batter', 'beancurd', 'bean', 'beef', 'beet', 'bell',
                     'pepper', 'berri', 'biscuit', 'bitter', 'blackbean', 'blackberri', 'black-ey', 'pea', 'bland', 'blood', 'orang', 'blueberri', 'boil', 'bowl', 'boysenberri', 'bran',
@@ -262,7 +280,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
 
     if food == True and transport == False and culture == False:
         for url in sorted_pages:
-            if url[0] in food_urls and url[0] in transport_urls:
+            if url[0] in food_urls:
                 results.append(url)
         sorted_pages = results
 
@@ -291,12 +309,6 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
         sorted_pages = results
 
     # create the right format for frontend
-    # ranking = []
-    # for page_tuple in sorted_pages[:100]:
-    #     page_dict = {"url": page_tuple[0], "text": "BLABLABLA", "title": TITLES[page_tuple[0]], "score": page_tuple[1]}
-    #     ranking.append(page_dict)
-
-    # create the right format for frontend
     ranking = []
 
     for page_tuple in sorted_pages[::-1]:
@@ -309,4 +321,49 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
         if len(ranking) == 10:
             break
 
+    # select relevant text from HTML to display in the front end 
+    for page_dict in ranking:
+
+        url = page_dict["url"]
+        html = get(url).content
+        soup = BeautifulSoup(html, 'html.parser')
+
+        # kill all script and style elements
+        for script in soup(["script", "style"]):
+            script.extract()    # rip it out
+        # get text
+        text = soup.get_text()
+        # break into lines and remove leading and trailing space on each
+        lines = (line.strip() for line in text.splitlines())
+        # break multi-headlines into a line each
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        # drop blank lines
+        text = '\n'.join(chunk for chunk in chunks if chunk)
+        text = text.replace("\n"," ")
+
+        # now look where the query terms appear in the text
+        substrings = []
+        for word in tokens2:
+            try:
+                word_index = text.lower().find(" " + word + " ")
+                substring = text[word_index - 50: word_index + 50]
+                substring = substring.split()
+                substring = substring[1:-1]
+                substring = " ".join(substring)
+                substrings.append(substring)
+                if len(substrings) == 0:
+                    substrings.append(". . . .")
+                elif substrings[-1] != ". . . .":
+                    substrings.append(". . . .")
+            except:
+                if len(substrings) == 0:
+                    continue
+                elif substrings[-1] != ". . . .":
+                    substrings.append(". . . .")
+
+        # now update the page_dict
+        page_dict["text"] = " ".join(substrings)
+
     return ranking
+
+
