@@ -1,43 +1,91 @@
 from flask import Flask, redirect, render_template, request, url_for
 from helpers import query, paginate
+import json
+from search import querysearch
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
 
 @app.route('/')
 def index():
     return render_template('home.html')
 
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search/', methods=['GET', 'POST'])
 def search():
 
-    query = request.form.get('query')
+    index_dir = '/Users/jesse/Downloads/clean_INDEX.json'
+    with open(index_dir) as f:
+        index = json.load(f)
 
-    results = [
-    {'title':'This is result 1', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'https://www.w3schools.com/tags/att_form_action.asp'},
-    {'title':'This is result 2', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 3', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 4', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 5', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 6', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 7', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 8', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 9', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'},
-    {'title':'This is result 10', 'text':'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'url':'http://flask.pocoo.org/docs/1.0/quickstart/#routing'}
-    ]
+    titles_dir = '/Users/jesse/Google Drive/Master DS/IR/project/index_titles.json'
+    with open(titles_dir) as f:
+        titles = json.load(f)
 
-    page = request.args.get('page', 1, type=int)
-    paginate_results = paginate(results, 1, page)
-    print(paginate_results)
+    # request the forms from the page
+    search_query = request.values.get('query')
 
-    return render_template('search.html', query=query, results=paginate_results, title=query, page=1)
+    if not query:
+        return render_template('home.html')
 
+    # check radio buttons for theme filters
+    filters = request.values.getlist('check')
+    print(filters)
+
+    if 'food' in filters:
+        food = True
+    else:
+        food = False
+
+
+    if 'culture' in filters:
+        culture = True
+    else:
+        culture = False
+
+    if 'transport' in filters:
+        transport = True
+    else:
+        transport = False
+
+    print(food, culture, transport)
+    
+
+    results = querysearch(index, titles, query=search_query, food=food, culture=culture, transport=transport)
+    print(results[:11])
+
+    # error handler if user does not fill in query
+    if not search_query or not results:
+        render_template('home.html')
+
+    # split list in list of lists based on the results per page
+    # paginate_results = paginate(results, per_page, page)
+
+    return render_template('search.html', query=search_query, results=results, title=search_query)
 
 
 @app.route('/about')
 def about():
     return render_template('about.html', title='About')
+
+
+@app.route('/submit',methods=['GET', 'POST'])
+def submit():
+
+    evaluation_results = []
+
+    # loop over all radio button names and store their values is a list
+    for i in range(1,11):
+        evaluation_results.append(request.values.get(str(i)))
+
+    # write the evaluation list to file
+    with open('evaluations.txt', 'a+') as f:
+        f.writelines("%s" % i for i in evaluation_results)
+        f.write("\n")
+
+    return render_template('submit.html', title="Submitted form")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

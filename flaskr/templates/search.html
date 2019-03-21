@@ -1,33 +1,51 @@
 {% extends 'base.html' %}
 
 {% block navsearch %}
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="", autocomplete="off">
+    <form class="form-inline my-2 my-lg-0" action="/search/" method="post">
+        <input class="form-control mr-sm-2" type="text" name="query" value="{{query}}", autocomplete="off" required>
+
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-right:3px">
+            <label class="btn btn-primary">
+                <input type="checkbox" name="check" value="food" autocomplete="off"> Food
+            </label>
+        </div>
+
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-right:3px">
+            <label class="btn btn-primary">
+                <input type="checkbox" name="check" value="culture" autocomplete="off"> Culture
+            </label>
+        </div>
+
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-right:3px">
+            <label class="btn btn-primary">
+                <input type="checkbox" name="check" value="transport" autocomplete="off"> Transport
+            </label>
+        </div>
+
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
     </form>
 {% endblock %}
 
 {% block content %}
-    <div class="container" style="margin-top:5%">
+    <div class="container" style="margin-top:3%">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
 
+                <!-- RESULTS -->
+                <h3 style="margin-bottom:10px">Results for - "{{query}}"</h3>
                 {% for result in results %}
-                    <div class="row">
-                        <blockquote class="blockquote">
-                            <h4><a href='{{result["url"]}}'>{{result['title']}}</a></h4>
-                            <footer class="blockquote-footer"><a href='{{result["url"]}}'>{{result['url']}}</a></footer>
-                            <p class="mb-0">{{result['text']}}</p>
-                        </blockquote>
-                    </div>
+                    <blockquote class="blockquote" style="margin-bottom:0px">
+                        <h4><a href='{{result["url"]}}'>{{result['title']}}</a></h4>
+                        <footer class="blockquote-footer"><a href='{{result["url"]}}'>{{result['url']}}</a></footer>
+                        <p>{{result['text']}}</p>
+                    </blockquote>
+                    <hr>
                 {% endfor %}
 
+                <!-- PAGINATION -->
                 <div class="row">
                     <div>
                         <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#">&laquo;</a>
-                            </li>
                             <li class="page-item active">
                                 <a class="page-link" href="#">1</a>
                             </li>
@@ -43,29 +61,176 @@
                             <li class="page-item">
                                 <a class="page-link" href="#">5</a>
                             </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">&raquo;</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
+
             </div>
-            <div class="col-lg-4" style="margin-left:25px">
+
+            <!-- EVALUATION -->
+            <div class="col-lg-3" style="margin-left:5%">
                 <div class="row">
-                    <h4>Filter results</h4>
+                    <h3>Evalution</h3>
                 </div>
+
                 <div class="row">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-primary">
-                            <input type="checkbox" checked="" autocomplete="off"> Food
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="checkbox" autocomplete="off"> Culture
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="checkbox" autocomplete="off"> Transport
-                        </label>
-                    </div>
+                    <form action="/submit">
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 1</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="1" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="1" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 2</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="2" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="2" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 3</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="3" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="3" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 4</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="4" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="4" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 5</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="5" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="5" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 6</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="6" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="6" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 7</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="7" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="7" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 8</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="8" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="8" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:50px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 9</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="9" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="9" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:10px">
+                            <!-- Radio group !-->
+                            <label class="control-label">Document 10</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="10" value="R" required> Relevant
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="10" value="N" required> Not Relevant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Submit button !-->
+                            <button class="btn btn-primary " name="submit" type="submit">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

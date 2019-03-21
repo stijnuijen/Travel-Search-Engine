@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block navsearch %}
+    <form class="form-inline my-2 my-lg-0" action="/search/" method="post">
+        <input class="form-control mr-sm-2" type="text" name="query" placeholder="", autocomplete="off">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="margin-top:3%">
+        <div class="row">
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Thank you!</strong> Evaluation submitted. Carry on with the next query in the search bar above.
+            </div>
+        </div>
+
+        <h2>Queries</h2>
+        <p><strong>Query 1: </strong>"bla bla bla"</p>
+        <p><strong>Query 2: </strong>"bla bla bla"</p>
+        <p><strong>Query 3: </strong>"bla bla bla"</p>
+        <p><strong>Query 4: </strong>"bla bla bla"</p>
+        <p><strong>Query 5: </strong>"bla bla bla"</p>
+        <p><strong>Query 6: </strong>"bla bla bla"</p>
+        <p><strong>Query 7: </strong>"bla bla bla"</p>
+        <p><strong>Query 8: </strong>"bla bla bla"</p>
+        <p><strong>Query 9: </strong>"bla bla bla"</p>
+        <p><strong>Query 10: </strong>"bla bla bla"</p>
+    </div>
+{% endblock %}
