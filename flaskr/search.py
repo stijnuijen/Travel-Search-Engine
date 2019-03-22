@@ -13,16 +13,16 @@ from requests import get
 from bs4 import BeautifulSoup
 
 
-# # load inverted Index:
-# JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json"
-# with open(JSON_dir) as f:
-#     INDEX = json.load(f)
+# load inverted Index:
+JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/data/demo_INDEX.json"
+with open(JSON_dir) as f:
+    INDEX = json.load(f)
 
 
-# # load the title dict:
-# JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
-# with open(JSON_dir_titles) as f:
-#     TITLES = json.load(f)
+# load the title dict:
+JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
+with open(JSON_dir_titles) as f:
+    TITLES = json.load(f)
 
 def l2_norm(a):
     return math.sqrt(np.dot(a, a))
@@ -145,7 +145,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                 continue
 
     for key, value in list(food_urls.items()):
-        if value < 100:
+        if value < 50:
             del food_urls[key]
 
     # if transport filter is activated:
@@ -162,7 +162,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                 continue
 
     for key, value in list(transport_urls.items()):
-        if value < 100:
+        if value < 50:
             del transport_urls[key]
 
     # if culture filter is activated:
@@ -179,7 +179,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                 continue
 
     for key, value in list(culture_urls.items()):
-        if value < 100:
+        if value < 50:
             del culture_urls[key]
 
     # same preprocessing as in index creation:
@@ -349,18 +349,28 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                 substring = " ".join(substring)
                 substrings.append(substring)
                 if len(substrings) == 0:
-                    substrings.append(". . . .")
-                elif substrings[-1] != ". . . .":
-                    substrings.append(". . . .")
+                    substrings.append(" ... ")
+                elif substrings[-1] != " ... ":
+                    substrings.append(". . . ")
             except:
                 if len(substrings) == 0:
                     continue
-                elif substrings[-1] != ". . . .":
-                    substrings.append(". . . .")
+                elif substrings[-1] != " ... ":
+                    substrings.append(" ... ")
 
         # now update the page_dict
         page_dict["text"] = " ".join(substrings)
 
     return ranking
 
+results = querysearch(INDEX, TITLES, "Planning a trip to Argentina")
+    
+print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+for i in results:
+    if "https://en.wikipedia.org" not in i["url"]:
+        print("")
+        print(i)
 
+# results = querysearch(INDEX, TITLES, "Planning a trip to Argentina")
+# results = querysearch(INDEX, TITLES, "Hanoi to Hue Vietnam", transport=True)
+# results = querysearch(INDEX, TITLES, "Rome Italy Restaurants", food=True, continent= "Europe")
