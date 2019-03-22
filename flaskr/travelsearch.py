@@ -50,9 +50,12 @@ def search():
         transport = False
 
     print(food, culture, transport)
-    
 
-    results = querysearch(index, titles, query=search_query, food=food, culture=culture, transport=transport)
+    continent = request.values.get('continent')
+    print(continent)
+
+    # results=[]
+    results = querysearch(index, titles, query=search_query, food=food, culture=culture, transport=transport, continent=continent)
     print(results[:11])
 
     # error handler if user does not fill in query

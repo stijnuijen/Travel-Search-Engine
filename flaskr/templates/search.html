@@ -2,7 +2,6 @@
 
 {% block navsearch %}
     <form class="form-inline my-2 my-lg-0" action="/search/" method="post">
-        <input class="form-control mr-sm-2" type="text" name="query" value="{{query}}", autocomplete="off" required>
 
         <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-right:3px">
             <label class="btn btn-primary">
@@ -16,13 +15,24 @@
             </label>
         </div>
 
-        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-right:3px">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-right:25px">
             <label class="btn btn-primary">
                 <input type="checkbox" name="check" value="transport" autocomplete="off"> Transport
             </label>
         </div>
 
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control mr-sm-2" type="text" name="query" value="{{query}}", autocomplete="off" required>
+
+        <div class="form-group" style="color:#FFF">
+            <select class="custom-select" name="continent" style="color:#FFF">
+                <option selected="">Select a region</option>
+                <option value="Europe">Europe</option>
+                <option value="Asia">Asia</option>
+                <option value="South America">South America</option>
+            </select>
+        </div>
+
+        <button class="btn btn-secondary my-2 my-sm-0" style="margin-left:25px" type="submit">Search</button>
     </form>
 {% endblock %}
 
@@ -34,7 +44,7 @@
                 <!-- RESULTS -->
                 <h3 style="margin-bottom:10px">Results for - "{{query}}"</h3>
                 {% for result in results %}
-                    <blockquote class="blockquote" style="margin-bottom:0px">
+                    <blockquote class="blockquote" style="margin-bottom:30px">
                         <h4><a href='{{result["url"]}}'>{{result['title']}}</a></h4>
                         <footer class="blockquote-footer"><a href='{{result["url"]}}'>{{result['url']}}</a></footer>
                         <p>{{result['text']}}</p>
@@ -76,7 +86,7 @@
                 <div class="row">
                     <form action="/submit">
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 1</label>
                             <div class="radio">
@@ -91,7 +101,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 2</label>
                             <div class="radio">
@@ -106,7 +116,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 3</label>
                             <div class="radio">
@@ -121,7 +131,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 4</label>
                             <div class="radio">
@@ -136,7 +146,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 5</label>
                             <div class="radio">
@@ -151,7 +161,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 6</label>
                             <div class="radio">
@@ -166,7 +176,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 7</label>
                             <div class="radio">
@@ -181,7 +191,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 8</label>
                             <div class="radio">
@@ -196,7 +206,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:50px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 9</label>
                             <div class="radio">
@@ -211,7 +221,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:10px">
+                        <div class="form-group" style="margin-bottom:35px">
                             <!-- Radio group !-->
                             <label class="control-label">Document 10</label>
                             <div class="radio">

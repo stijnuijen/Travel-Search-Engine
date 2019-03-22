@@ -12,7 +12,6 @@ import time
 from requests import get
 from bs4 import BeautifulSoup
 
-
 # # load inverted Index:
 # JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json"
 # with open(JSON_dir) as f:
@@ -32,10 +31,6 @@ def cosine_similarity(a, b):
 
 def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False, continent=None):
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 9c0a7743839881131e047c1140f0a462c5474428
     food_vocab = ['acorn', 'squash', 'alfalfa', 'sprout', 'almond', 'anchovi', 'anis', 'appet', 'appetit', 'appl', 'apricot', 'artichok', 'asparagu', 'aspic',
                     'ate', 'avocado', 'bacon', 'bagel', 'bake', 'bamboo', 'shoot', 'banana', 'barbecu', 'barley', 'basil', 'batter', 'beancurd', 'bean', 'beef', 'beet', 'bell',
                     'pepper', 'berri', 'biscuit', 'bitter', 'blackbean', 'blackberri', 'black-ey', 'pea', 'bland', 'blood', 'orang', 'blueberri', 'boil', 'bowl', 'boysenberri', 'bran',
@@ -95,7 +90,6 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                         'tractor', 'tractor-trail', 'trail', 'bike', 'trailer', 'train', 'tram', 'transit', 'trawler', 'tricycl', 'trolley', 'truck', 'tugboat', 'u-boat',
                         'ultralight', 'craft', 'unicycl', 'van', 'vehicl', 'vespa', 'vessel', 'wagon', 'warship', 'wheel', 'wheelbarrow', 'wheelchair', 'windjamm', 'wreck',
                         'yacht', 'zamboni', 'zeppelin']
-
 
     culture_vocab = ['french', 'paleo-indian', 'assyrian', 'alfr', 'kinship', 'schema', 'pufendorf', 'music', 'spencer', 'growingli', 'cultivar', 'environment', 'flawless',
                     'tillag', 'belief', 'crop', 'countercultur', 'morgan', 'heritag', 'weimar', 'psychogenesi', 'today', 'paleocontact', 'structur', 'societi', 'architectur',
@@ -321,7 +315,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
         if len(ranking) == 10:
             break
 
-    # select relevant text from HTML to display in the front end 
+    # select relevant text from HTML to display in the front end
     for page_dict in ranking:
 
         url = page_dict["url"]
@@ -352,18 +346,16 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                 substring = " ".join(substring)
                 substrings.append(substring)
                 if len(substrings) == 0:
-                    substrings.append(". . . .")
-                elif substrings[-1] != ". . . .":
-                    substrings.append(". . . .")
+                    substrings.append(" ... ")
+                elif substrings[-1] != " ... ":
+                    substrings.append(" ... ")
             except:
                 if len(substrings) == 0:
                     continue
-                elif substrings[-1] != ". . . .":
-                    substrings.append(". . . .")
+                elif substrings[-1] != " ... ":
+                    substrings.append(" ... ")
 
         # now update the page_dict
         page_dict["text"] = " ".join(substrings)
 
     return ranking
-
-
