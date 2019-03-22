@@ -12,24 +12,17 @@ import time
 from requests import get
 from bs4 import BeautifulSoup
 
-<<<<<<< HEAD
+
 # # load inverted Index:
-# JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json"
+# JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/data/demo_INDEX.json"
 # with open(JSON_dir) as f:
 #     INDEX = json.load(f)
-=======
-
-# load inverted Index:
-JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/data/demo_INDEX.json"
-with open(JSON_dir) as f:
-    INDEX = json.load(f)
->>>>>>> 7a9c4e3bf21afc9b75ed17eed5942c79bcf63ca0
-
-
-# load the title dict:
-JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
-with open(JSON_dir_titles) as f:
-    TITLES = json.load(f)
+#
+#
+# # load the title dict:
+# JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
+# with open(JSON_dir_titles) as f:
+#     TITLES = json.load(f)
 
 def l2_norm(a):
     return math.sqrt(np.dot(a, a))
@@ -356,11 +349,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                 if len(substrings) == 0:
                     substrings.append(" ... ")
                 elif substrings[-1] != " ... ":
-<<<<<<< HEAD
                     substrings.append(" ... ")
-=======
-                    substrings.append(". . . ")
->>>>>>> 7a9c4e3bf21afc9b75ed17eed5942c79bcf63ca0
             except:
                 if len(substrings) == 0:
                     continue
@@ -371,18 +360,15 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
         page_dict["text"] = " ".join(substrings)
 
     return ranking
-<<<<<<< HEAD
-=======
 
-results = querysearch(INDEX, TITLES, "Planning a trip to Argentina")
-    
-print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-for i in results:
-    if "https://en.wikipedia.org" not in i["url"]:
-        print("")
-        print(i)
+# results = querysearch(INDEX, TITLES, "Planning a trip to Argentina")
+#
+# print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+# for i in results:
+#     if "https://en.wikipedia.org" not in i["url"]:
+#         print("")
+#         print(i)
 
 # results = querysearch(INDEX, TITLES, "Planning a trip to Argentina")
 # results = querysearch(INDEX, TITLES, "Hanoi to Hue Vietnam", transport=True)
 # results = querysearch(INDEX, TITLES, "Rome Italy Restaurants", food=True, continent= "Europe")
->>>>>>> 7a9c4e3bf21afc9b75ed17eed5942c79bcf63ca0

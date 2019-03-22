@@ -15,7 +15,7 @@ def index():
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
 
-    index_dir = '/Users/jesse/Downloads/clean_INDEX.json'
+    index_dir = '/Users/jesse/Google Drive/Master DS/IR/project/data/demo_INDEX.json'
     with open(index_dir) as f:
         index = json.load(f)
 
