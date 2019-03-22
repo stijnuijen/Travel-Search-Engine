@@ -32,7 +32,10 @@ def cosine_similarity(a, b):
 
 def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False, continent=None):
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 9c0a7743839881131e047c1140f0a462c5474428
     food_vocab = ['acorn', 'squash', 'alfalfa', 'sprout', 'almond', 'anchovi', 'anis', 'appet', 'appetit', 'appl', 'apricot', 'artichok', 'asparagu', 'aspic',
                     'ate', 'avocado', 'bacon', 'bagel', 'bake', 'bamboo', 'shoot', 'banana', 'barbecu', 'barley', 'basil', 'batter', 'beancurd', 'bean', 'beef', 'beet', 'bell',
                     'pepper', 'berri', 'biscuit', 'bitter', 'blackbean', 'blackberri', 'black-ey', 'pea', 'bland', 'blood', 'orang', 'blueberri', 'boil', 'bowl', 'boysenberri', 'bran',
