@@ -15,11 +15,11 @@ def index():
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
 
-    index_dir = '/Users/jesse/Google Drive/Master DS/IR/project/data/demo_INDEX.json'
+    index_dir = 'C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json'
     with open(index_dir) as f:
         index = json.load(f)
 
-    titles_dir = '/Users/jesse/Google Drive/Master DS/IR/project/index_titles.json'
+    titles_dir = 'C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json'
     with open(titles_dir) as f:
         titles = json.load(f)
 

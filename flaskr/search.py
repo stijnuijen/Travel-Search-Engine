@@ -13,16 +13,16 @@ from requests import get
 from bs4 import BeautifulSoup
 
 
-# # load inverted Index:
-# JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/data/demo_INDEX.json"
-# with open(JSON_dir) as f:
-#     INDEX = json.load(f)
-#
-#
-# # load the title dict:
-# JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
-# with open(JSON_dir_titles) as f:
-#     TITLES = json.load(f)
+# load inverted Index:
+JSON_dir = "C:/Users/leonv/Documents/development/Master/Information_retrieval/clean_INDEX.json"
+with open(JSON_dir) as f:
+    INDEX = json.load(f)
+
+
+# load the title dict:
+JSON_dir_titles = "C:/Users/leonv/Documents/development/Master/Information_retrieval/travelsearch/index_titles.json"
+with open(JSON_dir_titles) as f:
+    TITLES = json.load(f)
 
 def l2_norm(a):
     return math.sqrt(np.dot(a, a))
@@ -91,6 +91,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                         'tractor', 'tractor-trail', 'trail', 'bike', 'trailer', 'train', 'tram', 'transit', 'trawler', 'tricycl', 'trolley', 'truck', 'tugboat', 'u-boat',
                         'ultralight', 'craft', 'unicycl', 'van', 'vehicl', 'vespa', 'vessel', 'wagon', 'warship', 'wheel', 'wheelbarrow', 'wheelchair', 'windjamm', 'wreck',
                         'yacht', 'zamboni', 'zeppelin']
+
 
     culture_vocab = ['french', 'paleo-indian', 'assyrian', 'alfr', 'kinship', 'schema', 'pufendorf', 'music', 'spencer', 'growingli', 'cultivar', 'environment', 'flawless',
                     'tillag', 'belief', 'crop', 'countercultur', 'morgan', 'heritag', 'weimar', 'psychogenesi', 'today', 'paleocontact', 'structur', 'societi', 'architectur',
@@ -316,7 +317,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
         if len(ranking) == 10:
             break
 
-    # select relevant text from HTML to display in the front end
+    # select relevant text from HTML to display in the front end 
     for page_dict in ranking:
 
         url = page_dict["url"]
@@ -349,7 +350,7 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                 if len(substrings) == 0:
                     substrings.append(" ... ")
                 elif substrings[-1] != " ... ":
-                    substrings.append(" ... ")
+                    substrings.append(". . . ")
             except:
                 if len(substrings) == 0:
                     continue
@@ -357,12 +358,21 @@ def querysearch(INDEX, TITLES, query, food=False, transport=False, culture=False
                     substrings.append(" ... ")
 
         # now update the page_dict
-        page_dict["text"] = " ".join(substrings)
+        # page_dict["text"] = " ".join(substrings)
+    
+    print("")
+    print("")
+    print("")
+    print("")
+    print("")
+    for doc in ranking[:10]:
+        print("{} ({})".format(doc['title'], doc['url']))
+
 
     return ranking
 
-# results = querysearch(INDEX, TITLES, "Planning a trip to Argentina")
-#
+
+    
 # print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 # for i in results:
 #     if "https://en.wikipedia.org" not in i["url"]:
